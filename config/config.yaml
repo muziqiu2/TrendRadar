@@ -1,14 +1,14 @@
-应用程序:
-  版本检查链接："https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version"
-  显示版本更新：真# 控制显示版本更新提示，如果 false，则不接受新版本提示
+app:
+  version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version"
+  show_version_update: true # 控制显示版本更新提示，如果 false，则不接受新版本提示
 
-爬虫:
-  request_interval：1000 # 请求间隔(毫秒)
-  enable_crawler：true # 是否启用爬取新闻功能，如果 false，则直接停止程序
-  use_proxy：false # 是否启用代理，false 时为关闭
-  默认代理："http://127.0.0.1:10086"
+crawler:
+  request_interval: 1000 # 请求间隔(毫秒)
+  enable_crawler: true # 是否启用爬取新闻功能，如果 false，则直接停止程序
+  use_proxy: false # 是否启用代理，false 时为关闭
+  default_proxy: "http://127.0.0.1:10086"
 
-# 🔸 每日（当日汇总模式）
+# 🔸 daily（当日汇总模式）
 #   • 推送时机：按时推送(默认每小时推送一次)
 #   • 显示内容：当日所有匹配新闻 + 新增新闻区域
 #   • 适用场景：日报总结、全面了解当日热点趋势
@@ -18,26 +18,26 @@
 #   • 显示内容：当前榜单匹配新闻 + 新增新闻区域
 #   • 适用场景：实时热点追踪、了解当前最火的内容
 #
-# 🔸 增量监控模式
+# 🔸 incremental（增量监控模式）
 #   • 推送时机：有新增才推送
 #   • 显示内容：新出现的匹配频率词新闻
 #   • 适用场景：避免重复信息干扰
 
 # 推送模式选择
-报告:
-  模式："每日" # 可选: "每日"|"增量"|"当前"
-  排名阈值: 5 # 排名高亮阈值
-  sort_by_position_first：false # 排序优先级：true=先按配置位置排序，false=先按热点条数排序
-  max_news_per_keyword：0 # 每个关键词最大显示数量，0=不限制
+report:
+  mode: "incremental" # 可选: "daily"|"incremental"|"current"
+  rank_threshold: 5 # 排名高亮阈值
+  sort_by_position_first: false # 排序优先级：true=先按配置位置排序，false=先按热点条数排序
+  max_news_per_keyword: 0 # 每个关键词最大显示数量，0=不限制
 
-通知:
-  enable_notification：true # 是否启用通知功能，如果 false，则不发送手机通知
-  message_batch_size：4000 # 消息分批大小（字节）(这个配置别动)
-  dingtalk_batch_size：20000 # 钉钉消息分批大小（字节）(这个配置也别动)
-  feishu_batch_size：30000 # 飞书消息分批大小（字节）
-  bark_batch_size：4000 # Bark消息分批大小（字节）
-  slack_batch_size：4000 # Slack消息分批大小（字节）
-  batch_send_interval：3 # 批次发送间隔（秒）
+notification:
+  enable_notification: true # 是否启用通知功能，如果 false，则不发送手机通知
+  message_batch_size: 4000 # 消息分批大小（字节）(这个配置别动)
+  dingtalk_batch_size: 20000 # 钉钉消息分批大小（字节）(这个配置也别动)
+  feishu_batch_size: 30000 # 飞书消息分批大小（字节）
+  bark_batch_size: 4000 # Bark消息分批大小（字节）
+  slack_batch_size: 4000 # Slack消息分批大小（字节）
+  batch_send_interval: 3 # 批次发送间隔（秒）
   feishu_message_separator: "━━━━━━━━━━━━━━━━━━━" # feishu 消息分割线
 
   # 🕐 推送时间窗口控制（可选功能）
@@ -45,17 +45,17 @@
   # 适用场景：
   #   - 只想在工作日白天接收推送（如 09:00-18:00）
   #   - 希望在晚上固定时间收到汇总（如 20:00-22:00）
-  push_window：
-    启用：true  # 是否启用推送时间窗口控制，默认关闭
+  push_window:
+    enabled: false  # 是否启用推送时间窗口控制，默认关闭
     # 注意：GitHub Actions 执行时间不稳定，时间范围建议至少留足 2 小时
     # 如果想要精准的定时推送，建议使用 Docker 部署在个人服务器上
-    时间范围:
-      开始: "07:00"  # 推送时间窗口开始（北京时间）
-      结束: "10:00"    # 推送时间窗口结束（北京时间）
-    once_per_day：true  # 每天在时间窗口内只推送一次，如果 false，则窗口内每次执行都推送
-    推送记录保留天数: 7  # 推送记录保留天数
+    time_range:
+      start: "20:00"  # 推送时间窗口开始（北京时间）
+      end: "22:00"    # 推送时间窗口结束（北京时间）
+    once_per_day: true  # 每天在时间窗口内只推送一次，如果 false，则窗口内每次执行都推送
+    push_record_retention_days: 7  # 推送记录保留天数
 
-  # ⚠️⚠️⚠️ 重要安全警告 / 重要安全警告 ⚠️⚠️⚠️
+  # ⚠️⚠️⚠️ 重要安全警告 / IMPORTANT SECURITY WARNING ⚠️⚠️⚠️
   #
   # 🔴 请务必妥善保管好 webhooks，不要公开!!!
   # 🔴 如果你以 fork 的方式将本项目部署在 GitHub 上，请勿在下面填写任何 webhooks
@@ -97,11 +97,11 @@ weight:
 
 # name 可以定义任意名称，只具有显示作用，即使项目运行了几天后，忽然改掉 name 也不会影响代码的正常运行
 platforms:
-  - id: "今日头条"
-    名字: "今日头条"
-  - id: "百度"
-    名字: "百度热搜"
-  - id: "wallstreetcn-热门"
+  - id: "toutiao"
+    name: "今日头条"
+  - id: "baidu"
+    name: "百度热搜"
+  - id: "wallstreetcn-hot"
     name: "华尔街见闻"
   - id: "thepaper"
     name: "澎湃新闻"
